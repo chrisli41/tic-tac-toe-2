@@ -1,6 +1,3 @@
-/**
- * Created by Christopher on 11/22/2016.
- */
 var AIAction = function(pos){
     this.movePosition = pos;
     this.minimaxVal = 0;
@@ -19,103 +16,130 @@ var AIAction = function(pos){
     }
 };
 
-AIAction.ASCENDING = function(firstAction, secondAction){
+AIAction.ASCENDING = function(firstAction, secondAction) {
     if(firstAction.minimaxVal < secondAction.minimaxVal)
-        return -1;
+        return -1; //indicates that firstAction goes before secondAction
     else if(firstAction.minimaxVal > secondAction.minimaxVal)
-        return 1;
+        return 1; //indicates that secondAction goes before firstAction
     else
-        return 0;
+        return 0; //indicates a tie
 };
 
-AIAction.DESCENDING = function(firstAction, secondAction){
+AIAction.DESCENDING = function(firstAction, secondAction) {
     if(firstAction.minimaxVal > secondAction.minimaxVal)
-        return -1;
+        return -1; //indicates that firstAction goes before secondAction
     else if(firstAction.minimaxVal < secondAction.minimaxVal)
-        return 1;
-    else 
-        return 0;
+        return 1; //indicates that secondAction goes before firstAction
+    else
+        return 0; //indicates a tie
 };
 
-var AI = function(){
+var AI = function(level) {
+
+    
+    var levelOfIntelligence = level;
     
     var game = {};
-    
-    function minimaxValue(state){
-        if(state.isTerminal())
+
+    function minimaxValue(state) {
+        if(state.isTerminal()) {
+            //a terminal game state is the base case
             return Game.score(state);
+        }
         else {
-            var stateScore;
-            
-            if(state.turn === 'X')
+            var stateScore; // this stores the minimax value we'll compute
+
+            if(state.turn === "X")
+            // X wants to maximize --> initialize to a value smaller than any possible score
                 stateScore = -1000;
             else
+            // O wants to minimize --> initialize to a value larger than any possible score
                 stateScore = 1000;
-            
+
             var availablePositions = state.emptyCells();
-            
-            var availableNextStates = availablePositions.map(function(pos){
+
+            //enumerate next available states using the info form available positions
+            var availableNextStates = availablePositions.map(function(pos) {
                 var action = new AIAction(pos);
+
                 var nextState = action.applyTo(state);
-                
+
                 return nextState;
             });
-            
-            availableNextStates.forEach(function(nextState){
+
+            /* calculate the minimax value for all available next states
+             * and evaluate the current state's value */
+            availableNextStates.forEach(function(nextState) {
                 var nextScore = minimaxValue(nextState);
-                if(state.turn === 'X'){
+                if(state.turn === "X") {
+                    // X wants to maximize --> update stateScore iff nextScore is larger
                     if(nextScore > stateScore)
                         stateScore = nextScore;
                 }
                 else {
-                    if(nextScore < stateScore){
+                    // O wants to minimize --> update stateScore iff nextScore is smaller
+                    if(nextScore < stateScore)
                         stateScore = nextScore;
-                    }
                 }
             });
-            
+
             return stateScore;
         }
     }
 
-    this.makeRandomMove = function(turn){
+    function takeABlindMove(turn) {
         var available = game.currentState.emptyCells();
         var randomCell = available[Math.floor(Math.random() * available.length)];
         var action = new AIAction(randomCell);
 
         var next = action.applyTo(game.currentState);
 
-        ui.applyMove(randomCell, turn);
+        ui.insertAt(randomCell, turn);
 
         game.advanceTo(next);
-    };
-
-    this.makeSmartMove = function(turn){
+    }
+    
+    function takeAMasterMove(turn) {
         var available = game.currentState.emptyCells();
-        var availableActions = available.map(function(pos){
-            var action = new AIAction(pos);
-            var next = action.applyTo(game.currentState);
 
-            action.minimaxVal = minimaxValue(next);
+        //enumerate and calculate the score for each avaialable actions to the ai player
+        var availableActions = available.map(function(pos) {
+            var action =  new AIAction(pos); //create the action object
+            var next = action.applyTo(game.currentState); //get next state by applying the action
+
+            action.minimaxVal = minimaxValue(next); //calculate and set the action's minmax value
 
             return action;
         });
 
-        if(turn === 'X')
+        //sort the enumerated actions list by score
+        if(turn === "X")
+        //X maximizes --> sort the actions in a descending manner to have the action with maximum minimax at first
             availableActions.sort(AIAction.DESCENDING);
         else
+        //O minimizes --> sort the actions in an ascending manner to have the action with minimum minimax at first
             availableActions.sort(AIAction.ASCENDING);
 
+
+        //take the first action as it's the optimal
         var chosenAction = availableActions[0];
         var next = chosenAction.applyTo(game.currentState);
 
-        ui.applyMove(chosenAction.movePosition, turn);
+        ui.insertAt(chosenAction.movePosition, ui.ai);
 
         game.advanceTo(next);
-    };
-
-
+    }
+    
     this.plays = function(_game){
         game = _game;
-    }
+    };
+    
+    this.notify = function(turn) {
+        switch(levelOfIntelligence) {
+            //invoke the desired behavior based on the level chosen
+            case "blind": takeABlindMove(turn); break;
+            case "novice": takeANoviceMove(turn); break;
+            case "master": takeAMasterMove(turn); break;
+        }
+    };
 };
