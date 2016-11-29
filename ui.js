@@ -21,7 +21,8 @@ ui.checkWin = function(){
         for(var i = 0; i <= 6; i = i + 3) {
             if($(B[i]).html() !== 'E' && $(B[i]).html() === $(B[i + 1]).html() && $(B[i + 1]).html() == $(B[i + 2]).html()) {
                 console.log($(B[i]).html() + '-won');
-                return;
+                $('#result').html($(B[i]).html() + '-won');
+                return
             }
         }
 
@@ -29,7 +30,8 @@ ui.checkWin = function(){
         for(var i = 0; i <= 2 ; i++) {
             if($(B[i]).html() !== "E" && $(B[i]).html() === $(B[i + 3]).html() && $(B[i + 3]).html() === $(B[i + 6]).html()) {
                 console.log($(B[i]).html() + '-won');
-                return ;
+                $('#result').html($(B[i]).html() + '-won');
+                return
             }
         }
 
@@ -37,14 +39,26 @@ ui.checkWin = function(){
         for(var i = 0, j = 4; i <= 2 ; i = i + 2, j = j - 2) {
             if ($(B[i]).html() !== "E" && $(B[i]).html() == $(B[i + j]).html() && $(B[i + j]).html() === $(B[i + 2 * j]).html()) {
                 console.log($(B[i]).html() + '-won');
+                $('#result').html($(B[i]).html() + '-won');
                 return
             }
         }
 
-        console.log('draw');
+    $('#result').html('Draw Game');
 };
 
 ui.reset = function(){
     $('.cell').removeClass('occupied');
     $('.cell').html('E');
+    $('#result').html('');
+    $('#menu').css('visibility', 'hidden');
+    $('#main').css('visibility', 'visible')
+};
+
+ui.showMenu = function(){
+    $('#menu').css('visibility', 'visible')
+};
+
+ui.hideMain = function(){
+    $('#main').css('visibility', 'hidden');
 };

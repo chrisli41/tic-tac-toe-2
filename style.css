@@ -1,3 +1,37 @@
+#menu {
+    margin: 20px auto;
+    width: 200px;
+}
+
+#text {
+    margin: 0 auto;
+    width: 150px;
+}
+
+#symbols {
+    margin: 0 auto;
+    width: 50px;
+}
+
+#x {
+    display: inline-block;
+}
+
+#o {
+    display: inline-block;
+}
+
+#main {
+    margin: 0 auto;
+    height: 100px;
+    width: 50px;
+}
+
 .cell {
     display: inline-block;
+}
+
+#result {
+    margin: 20px auto;
+    width: 50px;
 }

@@ -35,7 +35,6 @@ AIAction.DESCENDING = function(firstAction, secondAction) {
 };
 
 var AI = function(level) {
-
     
     var levelOfIntelligence = level;
     
