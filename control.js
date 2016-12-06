@@ -1,11 +1,10 @@
 /**
  * Created by Christopher on 11/22/2016.
  */
+
 $(document).ready(function(){
 
     var globals = {};
-
-    //ui.hideMain();
 
     $('#x').click(function(){
 

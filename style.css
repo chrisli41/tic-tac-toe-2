@@ -1,37 +1,115 @@
+body {
+    background-color: #f8fcfb;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 60px;
+    margin-bottom: 40px;
+    font-family: 'Raleway', serif;
+    font-size: 30px;
+    color: #484c61;
+    word-spacing: -0.15em;
+    font-weight: 300;
+}
+
+h1 span {
+    font-weight: 900;
+}
+
+
 #menu {
-    margin: 20px auto;
+    display:block;
+    margin: 20px auto 0;
     width: 200px;
 }
 
-#text {
-    margin: 0 auto;
+#menu-text {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0 auto 10px;
     width: 150px;
 }
 
 #symbols {
+    display:block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 48px;
     margin: 0 auto;
-    width: 50px;
+    width: 170px;
+    height: 100px;
 }
 
 #x {
-    display: inline-block;
+    float: left;
+    text-align: center;
+    line-height: 75px;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin-right: 5px;
+    width: 75px;
+    height: 75px;
+    background: #fff;
 }
 
 #o {
-    display: inline-block;
+    float: left;
+    text-align: center;
+    line-height: 75px;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin-left: 5px;
+    width: 75px;
+    height: 75px;
+    background: #fff;
+}
+
+#x:hover, #o:hover {
+    background: #f26969;
+    color: #fff;
 }
 
 #main {
+    position: relative;
     margin: 0 auto;
-    height: 100px;
-    width: 50px;
+    width: 330px;
+    height: 330px;
+    visibility: visible;
 }
 
 .cell {
-    display: inline-block;
+    float: left;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 48px;
+    color: #fff;
+    line-height: 100px;
+    background: linear-gradient(#9dd2ea, #8bceec);
+    border-radius: 2px;
+    margin: 5px 5px 6px 5px;
+    box-shadow: 0 3px #51869E, 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 
+.cell:not(.occupied):hover {
+    background: linear-gradient(#B7ECFF, #A5E8FF);
+    box-shadow: 0 3px #6BA0B8, 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+
 #result {
+    font-size: 48px;
+    font-family: 'Raleway', serif;
     margin: 20px auto;
-    width: 50px;
+    width: 175px;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 20px;
 }

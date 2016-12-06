@@ -82,7 +82,7 @@ var Game = function(aiPlayer){
         if(_state.isTerminal()){
             this.status = 'ended';
             ui.checkWin();
-            ui.showMenu();
+            ui.gameEnd();
         }
         else {
             
